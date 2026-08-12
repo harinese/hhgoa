@@ -382,9 +382,9 @@ export const PassCardCanvas: React.FC<PassCardCanvasProps> = ({
 
 
         // --- 4. ARCED TALL-CONDENSED HEADER LOGO (GENTLE SHAPED ARC MATCHING IMAGE 15) ---
-        // Draw tilted Devanagari overlay "गोवा" in the center slightly lower to sit beneath arc
+        // Draw tilted Devanagari overlay "गोवा" in the center slightly higher to sit in the vertical middle
         activeCtx.save();
-        activeCtx.translate(width / 2, 222);
+        activeCtx.translate(width / 2, 202);
         activeCtx.rotate(-0.06);
         activeCtx.fillStyle = '#f43f5e';
         activeCtx.font = '900 56px "Plus Jakarta Sans", sans-serif';
@@ -403,11 +403,11 @@ export const PassCardCanvas: React.FC<PassCardCanvasProps> = ({
         const arcCenterY = 690;  // Center placed low down
         const arcRadius = 495;   // Large radius for a subtle curve
         
-        // HACKER characters start at approx -16.5deg, space 2.4deg per char
-        drawTextOnArc(activeCtx, 'HACKER', arcCenterX, arcCenterY, arcRadius, -Math.PI / 2 - 0.29, 0.042);
+        // HACKER characters start at -Math.PI / 2 - 0.53, space 0.08 rad per char
+        drawTextOnArc(activeCtx, 'HACKER', arcCenterX, arcCenterY, arcRadius, -Math.PI / 2 - 0.53, 0.08);
         
-        // HOUSE characters start at approx +4.5deg, space 2.4deg per char
-        drawTextOnArc(activeCtx, 'HOUSE', arcCenterX, arcCenterY, arcRadius, -Math.PI / 2 + 0.08, 0.042);
+        // HOUSE characters start at -Math.PI / 2 + 0.13, space 0.08 rad per char
+        drawTextOnArc(activeCtx, 'HOUSE', arcCenterX, arcCenterY, arcRadius, -Math.PI / 2 + 0.13, 0.08);
         
         activeCtx.restore();
 
