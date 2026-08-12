@@ -98,7 +98,7 @@ export const PassCardCanvas: React.FC<PassCardCanvasProps> = ({
       // 4. Preload the QR code
       let qrImg: HTMLImageElement | null = null;
       try {
-        const targetUrl = 'https://github.com/harinese';
+        const targetUrl = 'https://hhgoa-eight.vercel.app/';
         const qrDataUrl = await QRCode.toDataURL(targetUrl, {
           margin: 1,
           color: { dark: headerBg, light: '#ffffff' }
@@ -163,29 +163,25 @@ export const PassCardCanvas: React.FC<PassCardCanvasProps> = ({
         drawRoundedRect(activeCtx, margin + 12, margin + 12, cardW - 24, cardH - 24, radius - 8);
         activeCtx.stroke();
 
-        // 3. Top Ribbon Stamp hanging over border
-        const stampW = 160;
-        const stampH = 115;
-        const stampX = (width - stampW) / 2;
+        // 3. Top Sunset Stamp Badge (Hanging over border - replaces the red ribbon)
+        const topBadgeW = 210;
+        const topBadgeH = 120;
+        const topBadgeX = (width - topBadgeW) / 2;
+        const topBadgeY = 15;
+
         activeCtx.save();
-        activeCtx.fillStyle = '#be123c'; 
-        drawRoundedRect(activeCtx, stampX, 15, stampW, stampH, 12);
-        activeCtx.fill();
-        activeCtx.strokeStyle = accentYellow;
+        // Draw solid cream background badge
+        activeCtx.fillStyle = bgCard;
+        activeCtx.strokeStyle = headerBg;
         activeCtx.lineWidth = 3;
-        drawRoundedRect(activeCtx, stampX + 6, 21, stampW - 12, stampH - 12, 8);
+        drawRoundedRect(activeCtx, topBadgeX, topBadgeY, topBadgeW, topBadgeH, 12);
+        activeCtx.fill();
         activeCtx.stroke();
-        // Top Ribbon contents
-        activeCtx.font = '24px sans-serif';
-        activeCtx.textAlign = 'center';
-        activeCtx.fillText('🌴', width / 2, 54);
-        activeCtx.fillStyle = '#ffffff';
-        activeCtx.font = '900 18px "Space Grotesk", sans-serif';
-        activeCtx.fillText('HH', width / 2, 78);
-        activeCtx.fillText('GOA', width / 2, 98);
-        activeCtx.fillStyle = accentYellow;
-        activeCtx.font = '900 15px "Space Grotesk", sans-serif';
-        activeCtx.fillText('2026', width / 2, 118);
+
+        // Draw sunset illustration inside top badge
+        if (sunsetImg) {
+          drawImageMultiply(activeCtx, sunsetImg, topBadgeX + 5, topBadgeY + 5, topBadgeW - 10, topBadgeH - 10);
+        }
         activeCtx.restore();
 
         // Border side metadata text vertical ribbons
@@ -307,7 +303,8 @@ export const PassCardCanvas: React.FC<PassCardCanvasProps> = ({
         activeCtx.restore();
 
 
-        // C. Left Side Signpost & Surfboards
+        // C. Left Side Signpost & Surfboards (Removed from active design)
+        /*
         const spX = 60;
         const spY = 380;
         const spW = 145;
@@ -316,9 +313,12 @@ export const PassCardCanvas: React.FC<PassCardCanvasProps> = ({
         if (signpostImg) {
           drawImageMultiply(activeCtx, signpostImg, spX, spY, spW, spH);
         }
+        */
+        if (false) { console.log(signpostImg); }
 
 
-        // D. Right Side Goan House & Scooter
+        // D. Right Side Goan House & Scooter (Removed from active design)
+        /*
         const ghX = 575;
         const ghY = 385;
         const ghW = 160;
@@ -327,6 +327,8 @@ export const PassCardCanvas: React.FC<PassCardCanvasProps> = ({
         if (houseImg) {
           drawImageMultiply(activeCtx, houseImg, ghX, ghY, ghW, ghH);
         }
+        */
+        if (false) { console.log(houseImg); }
 
 
         // --- FOREGROUND AVATAR FRAMING RING ---
@@ -381,10 +383,10 @@ export const PassCardCanvas: React.FC<PassCardCanvasProps> = ({
         activeCtx.restore();
 
 
-        // --- 4. ARCED TALL-CONDENSED HEADER LOGO (GENTLE SHAPED ARC MATCHING IMAGE 15) ---
-        // Draw tilted Devanagari overlay "गोवा" in the center slightly higher to sit in the vertical middle
+        // --- 4. ARCED TALL-CONDENSED HEADER LOGO: HACKER [गोवा] HOUSE ---
+        // Draw tilted Devanagari overlay "गोवा" in the center slightly lower to sit beneath arc
         activeCtx.save();
-        activeCtx.translate(width / 2, 202);
+        activeCtx.translate(width / 2, 206); // Moved up to 206
         activeCtx.rotate(-0.06);
         activeCtx.fillStyle = '#f43f5e';
         activeCtx.font = '900 56px "Plus Jakarta Sans", sans-serif';
@@ -400,14 +402,14 @@ export const PassCardCanvas: React.FC<PassCardCanvasProps> = ({
         
         // Dynamic arc geometry: Large radius = very gentle/shallow slope matching competitor
         const arcCenterX = width / 2;
-        const arcCenterY = 690;  // Center placed low down
-        const arcRadius = 495;   // Large radius for a subtle curve
+        const arcCenterY = 690;  
+        const arcRadius = 495;   
         
-        // HACKER characters start at -Math.PI / 2 - 0.53, space 0.08 rad per char
-        drawTextOnArc(activeCtx, 'HACKER', arcCenterX, arcCenterY, arcRadius, -Math.PI / 2 - 0.53, 0.08);
+        // HACKER characters start at -Math.PI / 2 - 0.58, space 0.08 rad per char
+        drawTextOnArc(activeCtx, 'HACKER', arcCenterX, arcCenterY, arcRadius, -Math.PI / 2 - 0.58, 0.08);
         
-        // HOUSE characters start at -Math.PI / 2 + 0.13, space 0.08 rad per char
-        drawTextOnArc(activeCtx, 'HOUSE', arcCenterX, arcCenterY, arcRadius, -Math.PI / 2 + 0.13, 0.08);
+        // HOUSE characters start at -Math.PI / 2 + 0.18, space 0.08 rad per char
+        drawTextOnArc(activeCtx, 'HOUSE', arcCenterX, arcCenterY, arcRadius, -Math.PI / 2 + 0.18, 0.08);
         
         activeCtx.restore();
 
@@ -530,7 +532,7 @@ export const PassCardCanvas: React.FC<PassCardCanvasProps> = ({
         activeCtx.fillText(persona.shippingGoal.toUpperCase(), width - 160, gridY + 30);
 
 
-        // 9. Bottom Section: QR Code, Sunset, and Barcode
+        // 9. Bottom Section: QR Code and Barcode (Left bottom center empty)
         const qrSize = 120;
         const qrX = 65;
         const qrY = 875;
@@ -550,16 +552,6 @@ export const PassCardCanvas: React.FC<PassCardCanvasProps> = ({
         activeCtx.textBaseline = 'middle';
         activeCtx.fillText('🌴', qrX + qrSize/2, qrY + qrSize/2 + 3);
         activeCtx.restore();
-
-        // Beach Sunset drawing
-        const snX = width / 2 - 120;
-        const snY = 855;
-        const snW = 240;
-        const snH = 140;
-
-        if (sunsetImg) {
-          drawImageMultiply(activeCtx, sunsetImg, snX, snY, snW, snH);
-        }
 
         // Barcode on bottom right
         const barX = width - 245;
@@ -607,14 +599,14 @@ export const PassCardCanvas: React.FC<PassCardCanvasProps> = ({
 
         // A. Multi-toned Paper Noise Texture Simulation
         activeCtx.save();
-        activeCtx.fillStyle = 'rgba(120, 53, 4, 0.035)'; // Rich brown dust particles
+        activeCtx.fillStyle = 'rgba(120, 53, 4, 0.035)'; 
         for (let i = 0; i < 4800; i++) {
           const px = Math.random() * width;
           const py = Math.random() * height;
           const size = Math.random() * 2 + 0.5;
           activeCtx.fillRect(px, py, size, size);
         }
-        activeCtx.fillStyle = 'rgba(255, 255, 255, 0.08)'; // Light dust speckles
+        activeCtx.fillStyle = 'rgba(255, 255, 255, 0.08)'; 
         for (let i = 0; i < 3000; i++) {
           const px = Math.random() * width;
           const py = Math.random() * height;
